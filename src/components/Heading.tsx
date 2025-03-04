@@ -7,6 +7,10 @@ const Text = styled.div`
   color: ${theme.colors.secondary};
   margin-bottom: 50px;
   font-weight: 600;
+  @media (max-width: 576px){
+    font-size: 30px;
+    text-align: center;
+  }
 `;
 
 const Heading: React.FC<{ children: React.ReactNode }> = ({ children }) => {
