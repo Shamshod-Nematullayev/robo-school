@@ -6,6 +6,7 @@ import Hero from "./components/Hero"
 import AboutSchool from "./components/AboutSchool"
 import AboutCourses from "./components/AboutCourses"
 import Trainers from "./components/Trainers"
+import Pricing from "./components/Pricing"
 const Container = styled.div`
   padding: 50px 180px;
   overflow: hidden;
@@ -24,6 +25,7 @@ function App() {
         <AboutSchool />
         <AboutCourses />
         <Trainers />
+        <Pricing />
       </Container>
     </ThemeProvider>
   )

@@ -6,7 +6,10 @@ import Photo3 from "../assets/teacher (3).jpg";
 import Photo4 from "../assets/teacher (4).jpg";
 import Photo5 from "../assets/teacher (5).jpg";
 import { theme } from "../theme";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
+import useIsXS from "../hooks/isXS";
 
 type Teacher = {
   name: string;
@@ -95,8 +98,8 @@ const TeacherPhoto = styled.img`
   }
 `;
 const TrainerName = styled.h3`
-    color: ${theme.colors.secondary};
-`
+  color: ${theme.colors.secondary};
+`;
 const FakeScrollBar = styled.div`
   position: absolute;
   left: 0;
@@ -109,23 +112,44 @@ const FakeScrollBar = styled.div`
   transition: width 0.2s;
 `;
 const FakeScrollBarTrack = styled.div`
-    background: #ccc;
-    width: 50%;
-    position: relative;
-    height: 5px;
-    // transform: scaleX(0.5);
-`
+  background: #ccc;
+  width: 100%;
+  position: relative;
+  height: 5px;
+  transform: scaleX(0.5);
+  transform-origin: left;
+  @media (max-width: 576px) {
+    transform: none;
+  }
+`;
+const IconButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: ${theme.colors.secondary};
+  border-radius: 50%;
+  color: ${theme.colors.white};
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0.9;
+  &:hover {
+    color: ${theme.colors.primary};
+    opacity: 1;
+  }
+`;
 
 function Trainers() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [thumbWidth, setThumbWidth] = useState(100);
+  const thumbWidth = 100;
   const [scrollPos, setScrollPos] = useState(0);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const handleScroll = () => {
-        if (!container) return;
-        const scrollRatio =
+      if (!container) return;
+      const scrollRatio =
         container.scrollLeft / (container.scrollWidth - container.clientWidth);
       setScrollPos(scrollRatio * (container.clientWidth - thumbWidth));
     };
@@ -133,6 +157,16 @@ function Trainers() {
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
   }, [thumbWidth]);
+  const handleClickLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 200;
+    }
+  };
+  const handleClickRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 200;
+    }
+  };
   return (
     <Container>
       <Heading>Профессиональные тренеры</Heading>
@@ -145,14 +179,37 @@ function Trainers() {
           </div>
         ))}
       </SliderContainer>
-      <FakeScrollBarTrack>
-      <FakeScrollBar
+      <div
         style={{
-          width: `${thumbWidth}px`,
-          left: `${scrollPos}px`,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
-      />
-      </FakeScrollBarTrack>
+      >
+        <FakeScrollBarTrack>
+          <FakeScrollBar
+            style={{
+              width: `${thumbWidth}px`,
+              left: `${scrollPos}px`,
+            }}
+          />
+        </FakeScrollBarTrack>
+        {!useIsXS() && (
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+            }}
+          >
+            <IconButton onClick={handleClickLeft}>
+              <FontAwesomeIcon icon={faLessThan} />
+            </IconButton>
+            <IconButton onClick={handleClickRight}>
+              <FontAwesomeIcon icon={faGreaterThan} />
+            </IconButton>
+          </div>
+        )}
+      </div>
     </Container>
   );
 }
