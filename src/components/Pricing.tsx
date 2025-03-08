@@ -24,7 +24,8 @@ const Description = styled.div`
     color: ${theme.colors.secondary};
     margin-bottom: 40px;
 `
-const PrimaryButton = styled.div`
+const PrimaryButton = styled.a`
+    display: block;
     width: 90%;
     margin: 20px auto;
     padding: 15px 0;
@@ -34,6 +35,7 @@ const PrimaryButton = styled.div`
     font-size: 18px;
     cursor: pointer;
     border-radius: 5px;
+    text-decoration: none;
 `
 function Pricing() {
   return (
@@ -51,7 +53,7 @@ function Pricing() {
         <Description style={{color: theme.colors.white}}>
             УМК по робототетхнике и программированию
         </Description>
-        <PrimaryButton>
+        <PrimaryButton href='#contact'>
             Оставить заявку
         </PrimaryButton>
      </PackCard>
@@ -65,7 +67,7 @@ function Pricing() {
         <Description>
             УМК по робототетхнике
         </Description>
-        <PrimaryButton>
+        <PrimaryButton href='#contact'>
             Оставить заявку
         </PrimaryButton>
      </PackCard>
@@ -79,7 +81,7 @@ function Pricing() {
         <Description>
             УМК по программированию
         </Description>
-        <PrimaryButton>
+        <PrimaryButton href='#contact'>
             Оставить заявку
         </PrimaryButton>
      </PackCard>

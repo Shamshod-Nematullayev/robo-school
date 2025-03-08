@@ -6,20 +6,29 @@ const Container = styled.div`
     justify-content: center;
     gap: 20px;
     background: ${theme.colors.primary};
-    padding: 70px 0px;
+    padding: 70px 20px;
     position: relative;
     overflow: hidden;
+    @media (max-width: 576px){
+        display: block;
+    }
 `
 const LeftContainer = styled.div`
     width: 400px;
     color: ${theme.colors.white};
     padding: 25px 0;
+    @media (max-width: 576px){
+        width: 100%;
+    }
 `
 const RightContainer = styled.div`
     width: 400px;
     display: flex;
     gap: 5px;
     flex-direction: column;
+    @media (max-width: 576px){
+        width: 100%;
+    }
 `
 const Title = styled.div`
     font-size: 36px;
@@ -36,6 +45,9 @@ const TextField = styled.input`
     border: none;
     outline: none;
     font-size 18px;
+    @media (max-width: 576px){
+        width: 90%;
+    }
 `
 const SubmitButton = styled.div`
     text-align: center;
@@ -48,6 +60,9 @@ const SubmitButton = styled.div`
     outline: none;
     font-size 18px;
     width: 100%;
+    @media (max-width: 576px){
+        width: 90%;
+    }
 `
 const BackgroundProcent = styled.div`
     position: absolute;

@@ -10,6 +10,12 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
 import useIsXS from "../hooks/isXS";
+import TrainerModal from "./TrainerModal";
+
+export type EducationItem = {
+  description: string;
+  title?: string;
+};
 
 type Teacher = {
   name: string;
@@ -17,7 +23,7 @@ type Teacher = {
   facebook: string;
   instagram: string;
   telegram: string;
-  education: string;
+  education: EducationItem[];
   experience: string;
   awards?: string;
   photo: typeof Photo1;
@@ -29,7 +35,21 @@ const teachers: Teacher[] = [
     facebook: "https://www.facebook.com/IrinaLaim",
     instagram: "https://www.instagram.com/irina_laim",
     telegram: "https://t.me/IrinaLaim",
-    education: "Факультет экономики и менеджмента",
+    education: [
+      {
+        description: `Сентябрь 1995 — Июнь 2000
+Санкт-Петербургский политехнический университет Петра Великого
+Факультет: Компьютерных наук и технологий
+Специальность: Математика и компьютерные науки
+Форма обучения: Очная`,
+      },
+      {
+        title: "Курсы и тренинги",
+        description: `
+Ноябрь 2020 — Февраль 2021
+Программа дополнительного образования «3D Моделирование»`,
+      },
+    ],
     experience: "Преподавал на курсах 1 курса",
     awards: "Присуждено звание преподавателем робототехники",
     photo: Photo1,
@@ -40,7 +60,21 @@ const teachers: Teacher[] = [
     facebook: "https://www.facebook.com/MarinaOrlov",
     instagram: "https://www.instagram.com/marina_orlov",
     telegram: "https://t.me/MarinaOrlov",
-    education: "Факультет экономики и менеджмента",
+    education: [
+      {
+        description: `Сентябрь 1995 — Июнь 2000
+Санкт-Петербургский политехнический университет Петра Великого
+Факультет: Компьютерных наук и технологий
+Специальность: Математика и компьютерные науки
+Форма обучения: Очная`,
+      },
+      {
+        title: "Курсы и тренинги",
+        description: `
+Ноябрь 2020 — Февраль 2021
+Программа дополнительного образования «3D Моделирование»`,
+      },
+    ],
     experience: "Преподавал на курсах 1 курса",
     photo: Photo2,
   },
@@ -50,7 +84,21 @@ const teachers: Teacher[] = [
     facebook: "https://www.facebook.com/MaximPetrov",
     instagram: "https://www.instagram.com/maxim_petrov",
     telegram: "https://t.me/MaximPetrov",
-    education: "Факультет информатики и вычислительной техники",
+    education: [
+      {
+        description: `Сентябрь 1995 — Июнь 2000
+Санкт-Петербургский политехнический университет Петра Великого
+Факультет: Компьютерных наук и технологий
+Специальность: Математика и компьютерные науки
+Форма обучения: Очная`,
+      },
+      {
+        title: "Курсы и тренинги",
+        description: `
+Ноябрь 2020 — Февраль 2021
+Программа дополнительного образования «3D Моделирование»`,
+      },
+    ],
     experience: "Преподавал на курсах 1 курса",
     photo: Photo3,
   },
@@ -60,7 +108,21 @@ const teachers: Teacher[] = [
     facebook: "https://www.facebook.com/KonstantinNazarov",
     instagram: "https://www.instagram.com/konstantin_nazarov",
     telegram: "https://t.me/KonstantinNazarov",
-    education: "Факультет информатики и вычислительной техники",
+    education: [
+      {
+        description: `Сентябрь 1995 — Июнь 2000
+Санкт-Петербургский политехнический университет Петра Великого
+Факультет: Компьютерных наук и технологий
+Специальность: Математика и компьютерные науки
+Форма обучения: Очная`,
+      },
+      {
+        title: "Курсы и тренинги",
+        description: `
+Ноябрь 2020 — Февраль 2021
+Программа дополнительного образования «3D Моделирование»`,
+      },
+    ],
     experience: "Преподавал на курсах 1 курса",
     photo: Photo4,
   },
@@ -70,7 +132,21 @@ const teachers: Teacher[] = [
     facebook: "https://www.facebook.com/LizaVesennya",
     instagram: "https://www.instagram.com/liza_vesennya",
     telegram: "https://t.me/LizaVesennya",
-    education: "Факультет информатики и вычислительной техники",
+    education: [
+      {
+        description: `Сентябрь 1995 — Июнь 2000
+Санкт-Петербургский политехнический университет Петра Великого
+Факультет: Компьютерных наук и технологий
+Специальность: Математика и компьютерные науки
+Форма обучения: Очная`,
+      },
+      {
+        title: "Курсы и тренинги",
+        description: `
+Ноябрь 2020 — Февраль 2021
+Программа дополнительного образования «3D Моделирование»`,
+      },
+    ],
     experience: "Преподавал на курсах 1 курса",
     photo: Photo5,
   },
@@ -140,10 +216,25 @@ const IconButton = styled.div`
   }
 `;
 
+const MoreButton = styled.div`
+  color: ${theme.colors.primary};
+  font-size: 18px;
+  margin-left: 10px;
+  cursor: pointer;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 5px;
+  &:hover {
+    background: ${theme.colors.primary + 20};
+  }
+`;
+
 function Trainers() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const thumbWidth = 100;
   const [scrollPos, setScrollPos] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTeacher, setSelectedTeacher] = useState<Teacher>(teachers[0]);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -169,6 +260,7 @@ function Trainers() {
   };
   return (
     <Container id="trainers">
+      {showModal && <TrainerModal {...selectedTeacher} />}
       <Heading>Профессиональные тренеры</Heading>
       <SliderContainer ref={containerRef}>
         {teachers.map((teacher, i) => (
@@ -176,6 +268,7 @@ function Trainers() {
             <TeacherPhoto src={teacher.photo} />
             <TrainerName>{teacher.name}</TrainerName>
             <p>{teacher.description}</p>
+            <MoreButton>Подробнее</MoreButton>
           </div>
         ))}
       </SliderContainer>

@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { theme } from "../theme"
+import useIsXS from "../hooks/isXS"
 
 const Container = styled.div`
     display: flex;
@@ -8,6 +9,10 @@ const Container = styled.div`
     padding: 50px 100px;
     background-color: ${theme.colors.secondary};
     color: ${theme.colors.white};
+    @media (max-width: 576px){
+        flex-direction: column;
+        padding: 50px 20px;
+    }
 `
 const Title = styled.div`
     font-weight: 700;
@@ -23,15 +28,18 @@ function Footer() {
     <Container>
         <div>
             <Title>ROBO.SCHOOL</Title>
-            <Copyright href="https://github.com/Shamshod-Nematullayev" target="_blank">
+            {!useIsXS() && <Copyright href="https://github.com/Shamshod-Nematullayev" target="_blank">
                 © Shamshod Ne'matullayev
-            </Copyright>
+            </Copyright>}
         </div>
         <div>
             <Title>
                 +998 91 187 25 36
             </Title>
         </div>
+        <Copyright href="https://github.com/Shamshod-Nematullayev" target="_blank">
+                © Shamshod Ne'matullayev
+            </Copyright>
     </Container>
   )
 }
