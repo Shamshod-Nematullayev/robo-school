@@ -25,7 +25,7 @@ const StatDescription = styled.p`
 `
 function AboutSchool() {
   return (
-    <div>
+    <div id="about">
         <DescriptionAboutSchool>
         <b>Robo School</b> – учреждение для формирования кадрового педагогического резерва в сфере робототехникии программирования
         </DescriptionAboutSchool>

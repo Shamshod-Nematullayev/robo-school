@@ -63,7 +63,7 @@ function Hero() {
             <Description>
                 Курсы повышения квалификации по робототехнике для педагогов начальной школы
             </Description>
-            {!isXS && <PrimaryButton>Записаться на курс</PrimaryButton>}
+            {!isXS && <PrimaryButton href="#contact">Записаться на курс</PrimaryButton>}
         </Grid>
         <Grid size={{xs: 12, md: 6}}>
             <HeroImgContainer>

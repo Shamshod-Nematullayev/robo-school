@@ -37,7 +37,7 @@ const PrimaryButton = styled.div`
 `
 function Pricing() {
   return (
-    <>
+    <div id='pricing'>
      <Heading>
         Выберите нужный пакет
      </Heading>   
@@ -86,7 +86,7 @@ function Pricing() {
         </Grid2>
      </Grid2>
      
-    </>
+    </div>
   )
 }
 

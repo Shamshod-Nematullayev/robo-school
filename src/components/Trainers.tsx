@@ -88,8 +88,8 @@ const SliderContainer = styled.div`
   }
 `;
 const TeacherPhoto = styled.img`
-  width: 360px;
-  height: 500px;
+  width: 280px;
+  height: 300px;
   object-fit: cover;
   border-radius: 20px;
   @media (max-width: 576px) {
@@ -168,7 +168,7 @@ function Trainers() {
     }
   };
   return (
-    <Container>
+    <Container id="trainers">
       <Heading>Профессиональные тренеры</Heading>
       <SliderContainer ref={containerRef}>
         {teachers.map((teacher, i) => (
