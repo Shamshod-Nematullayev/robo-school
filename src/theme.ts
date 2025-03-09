@@ -2,7 +2,7 @@
 
 export const theme = {
     colors: {
-      primary: '#D52027', // Asosiy rang (masalan, tugmalar uchun)
+      primary: '#d52027', // Asosiy rang (masalan, tugmalar uchun)
       secondary: '#141024', // Ikkinchi darajali rang
       white: '#ffffff', // Oq rang
     },
