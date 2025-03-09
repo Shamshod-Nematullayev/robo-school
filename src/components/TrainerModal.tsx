@@ -4,7 +4,6 @@ import { theme } from "../theme";
 import { Grid2, Tab, Tabs } from "@mui/material";
 import { faFacebookF, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EducationItem } from "./Trainers";
 import useIsXS from "../hooks/isXS";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,7 +14,7 @@ type TrainerModalProps = {
   facebook: string;
   instagram: string;
   awards?: string;
-  education: EducationItem[];
+  education: string;
   experience: string;
   handleCloseModal: () => void
 };
@@ -151,10 +150,11 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
         <TabContainer>
             {tab === TabOption.INFO && (
                 <div>
-                {education.map(elem => (<>
+                {/* {education.map(elem => (<>
                     <h4>{elem.title}</h4>
                     <p>{elem.description}</p>
-                </>))}
+                </>))} */}
+                {education}
                 </div>
             )}
             {tab === TabOption.EXPERIENCE && (
