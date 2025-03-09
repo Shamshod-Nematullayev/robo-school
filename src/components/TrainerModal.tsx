@@ -5,6 +5,8 @@ import { Grid2, Tab, Tabs } from "@mui/material";
 import { faFacebookF, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EducationItem } from "./Trainers";
+import useIsXS from "../hooks/isXS";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 type TrainerModalProps = {
   photo: string;
@@ -14,7 +16,8 @@ type TrainerModalProps = {
   instagram: string;
   awards?: string;
   education: EducationItem[];
-  experience: string
+  experience: string;
+  handleCloseModal: () => void
 };
 
 const Container = styled.div`
@@ -26,10 +29,14 @@ const Container = styled.div`
   padding: 30px;
   border-radius: 20px;
   width: 60%;
-  max-height: 90%;
+  height: 80%;
+  z-index: 1000;
+  @media (max-width: 576px){
+    width: 80%;
+  }
 `;
 const Photo = styled.img`
-  width: 160px;
+  width: 100%;
 `;
 const CloseButton = styled.div`
   font-size: 18px;
@@ -41,12 +48,18 @@ const TrainerName = styled.h3`
   margin-bottom: 20px;
   font-weight: 600;
   font-size: 24px;
+  @media (max-width: 576px){
+    font-size: 18px;
+  }
 `;
 const TrainerDescription = styled.div`
   color: ${theme.colors.secondary};
   opacity: 0.7;
   font-size: 18px;
   margin-bottom: 10px;
+  @media (max-width: 576px){
+    font-size: 12px;
+  }
 `;
 const IconButton = styled.a`
   background: ${theme.colors.secondary};
@@ -62,12 +75,17 @@ const IconButton = styled.a`
 
 const TabContainer = styled.div`
   flex-grow: 1;
-  margin-top: 25px;
+  margin-top: 0px;
   overflow: auto;
   font-size: 20px;
   line-height: 160%;
   box-shadow: inset -10px -10px 10px #fff;
+  height: 50%;
+  @media (max-width: 576px){
+    height: 70%;
+  }
 `;
+
 
 const TrainerModal: React.FC<TrainerModalProps> = ({
   photo,
@@ -77,22 +95,28 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
   instagram,
   awards,
   education,
-  experience
+  experience,
+  handleCloseModal
 }) => {
   enum TabOption {
     INFO = "info",
     EXPERIENCE = "experience",
     AWARDS = "awards",
   }
+  window.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      handleCloseModal();
+    }
+  })
 
   const [tab, setTab] = useState<TabOption>(TabOption.INFO);
   return (
-    <Container>
-      <Grid2 container>
-        <Grid2 size={{ md: 2 }}>
+    <Container >
+      <Grid2 container spacing={2}>
+        <Grid2 size={{ xs: 4, md: 2 }}>
           <Photo src={photo} alt="Trainer" />
         </Grid2>
-        <Grid2 size={{ md: 8 }}>
+        <Grid2 size={{ xs: 7, md: 9 }}>
           <TrainerName>{name}</TrainerName>
           <TrainerDescription>{description}</TrainerDescription>
           <div style={{ display: "flex", gap: "5px" }}>
@@ -104,8 +128,8 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
             </IconButton>
           </div>
         </Grid2>
-        <Grid2 size={{ md: 2 }}>
-          <CloseButton>Закрыть</CloseButton>
+        <Grid2 size={{ xs: 1 }}>
+          <CloseButton onClick={() => handleCloseModal()}>{useIsXS() ? <FontAwesomeIcon icon={faXmark}/> : "Закрыть"}</CloseButton>
         </Grid2>
       </Grid2>
       <Tabs

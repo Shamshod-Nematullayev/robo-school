@@ -184,7 +184,6 @@ const FakeScrollBar = styled.div`
   background: ${theme.colors.secondary};
   border-radius: 10px;
   opacity: 0.7;
-  cursor: pointer;
   transition: width 0.2s;
 `;
 const FakeScrollBarTrack = styled.div`
@@ -229,6 +228,16 @@ const MoreButton = styled.div`
   }
 `;
 
+const ModalBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+`
+
 function Trainers() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const thumbWidth = 100;
@@ -248,19 +257,45 @@ function Trainers() {
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
   }, [thumbWidth]);
+  const smoothScroll = (element: HTMLElement, target: number, duration: number) => {
+    let start = element.scrollLeft;
+    let startTime: number | null = null;
+  
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      let progress = Math.min((timestamp - startTime) / duration, 1);
+      let ease = progress < 0.5 ? 2 * progress ** 2 : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      element.scrollLeft = start + (target - start) * ease;
+  
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+  
+    requestAnimationFrame(animate);
+  };
+  
   const handleClickLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft -= 200;
+      smoothScroll(containerRef.current, containerRef.current.scrollLeft - 200, 500);
     }
   };
+  
   const handleClickRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft += 200;
+      smoothScroll(containerRef.current, containerRef.current.scrollLeft + 200, 500);
     }
   };
+    const handleClickMoreButton = (trainer: Teacher) => {
+    setShowModal(true);
+    setSelectedTeacher(trainer);
+  }
+  const handleCloseModal = () => {
+    setShowModal(false);
+  }
   return (
-    <Container id="trainers">
-      {showModal && <TrainerModal {...selectedTeacher} />}
+    <Container id="trainers" >
+      {showModal && <><ModalBackdrop /><TrainerModal handleCloseModal={handleCloseModal} {...selectedTeacher}  /></>}
       <Heading>Профессиональные тренеры</Heading>
       <SliderContainer ref={containerRef}>
         {teachers.map((teacher, i) => (
@@ -268,7 +303,7 @@ function Trainers() {
             <TeacherPhoto src={teacher.photo} />
             <TrainerName>{teacher.name}</TrainerName>
             <p>{teacher.description}</p>
-            <MoreButton>Подробнее</MoreButton>
+            <MoreButton onClick={() => handleClickMoreButton(teacher)}>Подробнее</MoreButton>
           </div>
         ))}
       </SliderContainer>
